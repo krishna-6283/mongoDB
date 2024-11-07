@@ -1,0 +1,41 @@
+cd C:\Users\krish\OneDrive\Desktop\mongoDB
+
+mongosh
+
+use students
+
+db.createCollection("students")
+
+db.students.find()
+
+db.students.insertOne({ name: "Gopal", age: 20, grade: "A+++++" });
+
+db.students.insertMany([
+    { name: "Alice", age: 20, grade: "B" },
+    { name: "Bob", age: 22, grade: "A" },
+    { name: "Charlie", age: 19, grade: "C" },
+    { name: "David", age: 21, grade: "B" },
+    { name: "Eve", age: 23, grade: "A" }
+ ]);
+
+db.students.find({ age: { $gt: 18 } });
+
+db.students.find({ age: { $gt: 18, $lt: 23 } });
+
+db.students.insertOne({ name: "John", age: 16, grade: "F----" });
+
+db.students.updateOne({ name: "John" }, { $set: { grade: "A" } });
+
+db.students.insertOne({ name: "Emily", age: 16, grade: "F----" });
+
+db.students.deleteOne({ name: "Emily" });
+
+
+ADVANCED OPERATIONS
+
+
+db.students.countDocuments({ grade: "B" });
+
+db.students.find({}, { name: 1, grade: 1, _id: 0 });
+
+db.students.find({}).sort({ age: -1 });
