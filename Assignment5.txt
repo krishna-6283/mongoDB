@@ -1,0 +1,146 @@
+use employees
+
+db.employees.insertMany([ {name:"Gopal",age:20,experience:6,department:"SDE"}, {name:"Krishna",age:45,experience:9,department:"Manager"}, {name:"Prakash",age:50,experience:25,department:"Peon"},{name:"Gourav",age:20,experience:6,department:"Animation"}]);
+
+db.employees.find({
+    $or: [
+        { age: { $gt: 30 } },
+        { experience: { $gt: 5 } }
+    ]
+})
+
+
+
+
+db.createCollections("products")
+
+db.products.insertMany([{product_name:"Apple",stock:5,price:120},{product_name:"Banana",stock:12,price:40},{product_name:"Grape",stock:0,price:150},{product_name:"Orange",stock:20,price:40}]);
+
+db.products.find({
+    stock: { $gt: 0 },
+    price: { $lt: 50 }
+})
+
+
+
+
+ db.createCollection("students")
+
+ db.students.insertMany([
+    { name: "John", enrolled: true, grade: "B" },
+    { name: "Sara", enrolled: false, grade: "D" },
+    { name: "Mike", enrolled: true, grade: "A" },
+    { name: "Lisa", enrolled: false, grade: "C" }
+])
+
+db.students.find({
+    $or: [
+        { enrolled: false },
+        { grade: { $lt: "C" } }
+    ]
+})
+
+
+
+
+
+db.createCollection("courses")
+
+ db.courses.insertMany([
+     { course_name: "Math 101", duration: 4, instructor: "Dr. Smith" },
+     { course_name: "History 201", duration: 8, instructor: "Dr. Brown" },
+     { course_name: "Science 101", duration: 6 },
+     { course_name: "Art 101", duration: 10, instructor: "Dr. Wilson" }
+ ]);
+
+db.courses.find({
+    $or: [
+        { duration: { $lt: 6 } },
+        { instructor: { $exists: false } }
+    ]
+})
+
+
+
+
+
+db.employees.insertMany([
+     { name: "Eve", age: 34, experience: 8, department: "Marketing" },
+     { name: "Frank", age: 40, experience: 15, department: "Finance" }
+ ])
+
+ db.employees.find(
+     { department: { $nin: ["Engineering", "IT"] } },
+     { name: 1, department: 1 }
+ )
+
+
+
+
+db.students.insertMany([
+    { name: "Nina", exam_score: 45, participation: false },
+    { name: "Jake", exam_score: 78, participation: true },
+    { name: "Tina", exam_score: 60, participation: false }
+])
+
+db.students.find({
+    exam_score: { $lt: 50 },
+    participation: false
+})
+
+
+
+
+db.createCollection("employees")
+db.employees.insertMany([
+    { name: "Alice", age: 24, experience: 2, department: "Sales" },
+    { name: "Bob", age: 27, experience: 4, department: "Sales" },
+    { name: "Carol", age: 30, experience: 5, department: "Sales" },
+    { name: "David", age: 22, experience: 1, department: "Marketing" }
+])
+
+db.employees.find({
+    department: "Sales",
+    $or: [
+        { experience: { $gt: 3 } },
+        { age: { $lt: 25 } }
+    ]
+})
+
+
+
+
+
+db.createCollection("inventory")
+db.inventory.insertMany([
+    { item: "Laptop", price: 99, stock: 10 },
+    { item: "Mouse", price: 25 },
+    { item: "Keyboard", price: 45, stock: 15 },
+    { item: "Monitor", stock: 0 }
+])
+
+db.inventory.find({
+    $or: [
+        { price: { $exists: true, $lt: 100 } },
+        { stock: { $exists: false } }
+    ]
+})
+
+
+
+
+db.createCollection("courses")
+db.courses.insertMany([
+    { course_name: "Math 101", duration: 8, instructor: "Dr. Brown" },
+    { course_name: "History 201", duration: 12, instructor: "John Smith" },
+    { course_name: "Science 101", duration: 10 },
+    { course_name: "Art 101", duration: 5, instructor: "Dr. Wilson" }
+])
+
+db.courses.find({
+    $nor: [
+        { instructor: "John Smith" },
+        { duration: { $gt: 10 } }
+    ]
+})
+
