@@ -1,0 +1,64 @@
+1. Basic Lookup with Matching Criteria
+db.students.aggregate([
+    { $lookup: { from: "courses", localField: "course_id", foreignField: "_id", as: "course_details" } },
+    { $unwind: "$course_details" },
+    { $project: { name: 1, course_name: "$course_details.course_name" } }
+])
+
+2. Filtering with Match
+db.students.aggregate([
+    { $match: { score: { $gt: 75 } } }
+])
+
+3. Lookup with Multiple Conditions
+db.orders.aggregate([
+    { $lookup: { from: "customers", localField: "customerId", foreignField: "_id", as: "customer_details" } },
+    { $unwind: "$customer_details" },
+    { $match: { amount: { $gt: 500 }, "customer_details.location": "New York" } }
+])
+
+4. Multi-Stage Aggregation
+db.sales.aggregate([
+    { $lookup: { from: "products", localField: "productId", foreignField: "_id", as: "product_details" } },
+    { $unwind: "$product_details" },
+    { $match: { "product_details.price": { $gt: 20 } } },
+    { $group: { _id: "$productId", totalRevenue: { $sum: { $multiply: ["$quantity", "$product_details.price"] } } } }
+])
+
+5. Using $in Operator
+db.employees.aggregate([
+    { $match: { department: { $in: ["HR", "Engineering", "Marketing"] } } }
+])
+
+6. Advanced Filtering with $or Operator
+db.transactions.aggregate([
+    { $match: { $or: [ { type: "credit" }, { amount: { $gt: 1000 } } ] } }
+])
+
+7. Combining $lookup and $ne Operator
+db.orders.aggregate([
+    { $lookup: { from: "customers", localField: "customerId", foreignField: "_id", as: "customer_details" } },
+    { $unwind: "$customer_details" },
+    { $match: { "customer_details.membership": { $ne: "premium" } } }
+])
+
+8. Multi-Level Lookup
+db.students.aggregate([
+    { $lookup: { from: "courses", localField: "courseId", foreignField: "_id", as: "course_details" } },
+    { $unwind: "$course_details" },
+    { $lookup: { from: "instructors", localField: "course_details.instructorId", foreignField: "_id", as: "instructor_details" } },
+    { $unwind: "$instructor_details" },
+    { $project: { student_name: "$name", course_name: "$course_details.course_name", instructor_name: "$instructor_details.name" } }
+])
+
+9. Conditional Lookup with $gte
+db.purchases.aggregate([
+    { $lookup: { from: "customers", localField: "customerId", foreignField: "_id", as: "customer_details" } },
+    { $unwind: "$customer_details" },
+    { $match: { "customer_details.loyaltyPoints": { $gte: 1000 } } }
+])
+
+10. Using $and in a Complex Condition
+db.products.aggregate([
+    { $match: { $and: [ { category: "electronics" }, { price: { $lt: 500 } }, { stock: { $gt: 0 } } ] } }
+])
