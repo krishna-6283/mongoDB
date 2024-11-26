@@ -1,0 +1,104 @@
+show dbs
+use chitkara
+//creating collections
+db.createCollection("students")
+db.students.insertMany([{name:"kavyam",age:20,grade:"A",roll:501,department:"Physics"},{name:"divesh",age:21,grade:"B",roll:291,department:"Chemistry"},{name:"gagan",age:16,grade:"C",roll:510,department:"Mathematics"}])
+
+db.createCollection("employees")
+db.employees.insertMany([
+    { "employee_id": "E001", "name": "John Smith", "department": "Engineering", "experience": 12, "salary": 75000 },
+    { "employee_id": "E002", "name": "Jane Doe", "department": "HR", "experience": 5, "salary": 50000 },
+    { "employee_id": "E003", "name": "Mike Johnson", "department": "Sales", "experience": 15, "salary": 65000 },
+    { "employee_id": "E004", "name": "Sarah Lee", "department": "Marketing", "experience": 8, "salary": 62000 },
+    { "employee_id": "E005", "name": "Chris Brown", "department": "IT", "experience": 11, "salary": 70000 }
+])
+
+db.createCollection("courses")
+db.courses.insertMany([
+    { "course_name": "Mathematics", "instructor": "Dr. Alan Turing", "duration": 14 },
+    { "course_name": "Physics", "instructor": "Dr. Isaac Newton", "duration": 10 },
+    { "course_name": "Chemistry", "instructor": "Dr. Marie Curie", "duration": 12 },
+    { "course_name": "Biology", "instructor": "Dr. Charles Darwin", "duration": 8 },
+    { "course_name": "Computer Science", "instructor": "Dr. Ada Lovelace", "duration": 16 }
+])
+
+db.createCollection("inventory")
+db.inventory.insertMany([
+    { "item_name": "Laptop", "price": 900, "stock": 50 },
+    { "item_name": "Keyboard", "price": 45, "stock": 100 },
+    { "item_name": "Mouse", "price": 25, "stock": 150 },
+    { "item_name": "Monitor", "price": 200, "stock": 30 },
+    { "item_name": "USB Cable", "price": 10, "stock": 500 }
+])
+
+db.createCollection("library")
+db.library.insertMany([
+    { "title": "Data Structures", "author": "Robert Lafore", "pages": 450 },
+    { "title": "Algorithms", "author": "Thomas H. Cormen", "pages": 950 },
+    { "title": "Intro to JavaScript", "author": "John Doe", "pages": 320 },
+    { "title": "Python Programming", "author": "Jane Doe", "pages": 280 },
+    { "title": "Literature", "author": "Emily Bronte", "pages": 140 }
+])
+
+db.createCollection("orders")
+db.orders.insertMany([
+    { "order_id": "O001", "status": "completed", "total_amount": 150 },
+    { "order_id": "O002", "status": "in progress", "total_amount": 200 },
+    { "order_id": "O003", "status": "cancelled", "total_amount": 50 },
+    { "order_id": "O004", "status": "completed", "total_amount": 300 },
+    { "order_id": "O005", "status": "pending", "total_amount": 120 }
+])
+
+
+//1
+db.students.find({grade:{$ne:"A"}},{name:1,grade:1,_id:0})
+
+//2
+db.students.find({age:{$lt:18}})
+
+//3
+db.employees.find(
+    { experience: { $gt: 10 } },
+    { name: 1, department: 1, _id: 0 }
+);
+
+//4.
+db.courses.find(
+    { duration: { $gte: 12 } },
+    { course_name: 1, instructor: 1, _id: 0 }
+);
+//5.
+db.inventory.find(
+    { price: { $lte: 100 } },
+    { item_name: 1, price: 1, _id: 0 }
+);
+
+//6.
+db.students.find(
+    { name: { $in: ["Alice", "Bob", "Charlie"] } },
+    { name: 1, roll: 1, _id: 0 }
+);
+
+//7.
+db.library.find(
+    { pages: { $gt: 150, $lt: 500 } },
+    { title: 1, pages: 1, _id: 0 }
+);
+
+//8.
+db.employees.find(
+    { department: { $ne: "HR" }, salary: { $gt: 60000 } },
+    { name: 1, salary: 1, _id: 0 }
+);
+
+//9.
+db.orders.find(
+    { status: { $in: ["completed", "in progress"] } },
+    { order_id: 1, status: 1, _id: 0 }
+);
+
+//10.
+db.students.find(
+    { roll: { $gte: 500 }, department: { $in: ["Biology", "Chemistry", "Physics"] } },
+    { name: 1, roll: 1, department: 1, _id: 0 }
+);
